@@ -5,41 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Be+Vietnam|Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: url(../assets/images/df.jpg) no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            font-family: 'Be Vietnam', sans-serif;
+        }
+    </style>
     <title>Project 1</title>
 </head>
 <body>
-        <div class="jumbotron jumbotron-fluid text-center">
+        <div class="jumbotron mx-auto text-center bg-transparent m-0" style="max-width: 500px;">
             <div class="container">
-                <h1 class="display-4">Kitchen Sink</h1>
+                <h1 class="display-4" style="font-family: 'Fredoka One', cursive;">Kitchen Sink</h1>
                 <p class="lead">Find Recipe by Ingreditiens in Your Kitchen</p>
             </div>
         </div>
-        <div class="mx-auto" style="max-width: 1000px; width: 100%;">
-            <form>
-            <div class="form-group">
-                <label for="formGroupExampleInput">Amount</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="amount">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Ingreditiens</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="ingreditiens">
-            </div>
-            <input type="submit" value="Add">
-            </form>
+        <!-- find recipe -->
+        <div class="container mx-auto p-4 rounded-sm" style="background: #fffffff0; max-width: 500px;">
+                <form>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Amount</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Ingreditiens</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="ingreditiens">
+                    </div>
+                    <input type="submit" value="Add">
+                </form>
+                <div id="ingreditients-here" class="my-5">
+            
+                </div>
+                <input type="submit" value="Find Recipe">
         </div>
-        <div class="mx-auto" style="max-width: 1000px; width: 100%;">
-            <div id="ingreditients-here">
-
-            </div>
-            <input type="submit" value="Find Recipe">
-        </div>
-        
-
-
-
-
-
-
 
 <!-- Firebase Core JavaScript Link -->
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
