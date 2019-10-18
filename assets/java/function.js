@@ -1,5 +1,4 @@
-// Take value from inputs
-
+// Take value from inputs and look for recipe based on that value
 $("#add-ingreditien").on("click", function(event){
     event.preventDefault();
     var ingreditien = $("#ingreditien").val();
@@ -18,8 +17,13 @@ $("#add-ingreditien").on("click", function(event){
         event.preventDefault();
         var findIngredients = $(".find").attr("data-ingreditien");
         console.log(findIngredients);
-        var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ findIngredients + "&number=10"
-        
+        // findIngredients take the first data ingredient only when it has 2 data
+        // how can we take both data-ingredient and get recipe based on those 2 data
+        // Tiur's API Key
+        // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ findIngredients + "&number=10"
+        // Cera's API Key
+        var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ findIngredients + "&number=10"
+
         $.ajax({
             url: queryURL,
             method: "GET"
@@ -50,11 +54,16 @@ $("#add-ingreditien").on("click", function(event){
     });
 
 });
+
+// get the recipe based on which recipe we choose
 $(document).on("click", ".card-img-top", function(event){
     event.preventDefault();
         var recipeIdNum = $(this).attr("data-id");
         console.log(recipeIdNum);
-        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
+        // Tiur's API Key
+        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
+        // Cera's API Key
+        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
         $.ajax({
             url: queryURL,
             method: "GET"
@@ -63,6 +72,7 @@ $(document).on("click", ".card-img-top", function(event){
         });
 });
 
+// get the value's nutrion
 $("#find-nutrition").on("click", function (event) {
     event.preventDefault();
     var findIngredient = $(".find").attr("data-ingreditien");
