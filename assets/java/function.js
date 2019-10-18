@@ -35,9 +35,9 @@ $("#add-ingreditien").on("click", function(event){
             var recipeId = response[i].id;
             recipeImage.attr("src", recipePic);
             recipeImage.attr("data-id", recipeId);
-            recipeImage.addClass("card-img-top")
-            recipeImage.css("style", "max-width: 400px")
-            p.addClass("card-text")
+            recipeImage.addClass("card-img-top");
+            recipeImage.css("max-width", "400px");
+            p.addClass("card-text");
             recipeDiv.append(p);
             recipeDiv.append(recipeImage);
             recipeDiv.addClass("card recipe-card");
@@ -45,6 +45,19 @@ $("#add-ingreditien").on("click", function(event){
         }
         });
     });
+
+});
+$(document).on("click", ".card-img-top", function(event){
+    event.preventDefault();
+        var recipeIdNum = $(this).attr("data-id");
+        console.log(recipeIdNum);
+        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }) .then(function(response){
+            console.log(response);
+        });
 
 });
 
