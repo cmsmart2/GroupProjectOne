@@ -28,20 +28,23 @@ $("#add-ingreditien").on("click", function(event){
             var results = response.length;
             console.log(results);
         for (var i = 0; i < results; i++) {
-            var recipeDiv = $("<div>");
-            var p = $("<p>").text(response[i].title);
-            var recipeImage = $("<img>");
             var recipePic = response[i].image;
             var recipeId = response[i].id;
+            var recipeDiv = $("<div>");
+            recipeDiv.addClass("card recipe-card");
+            recipeDiv.addClass("my-3");
+            recipeDiv.css("max-width", "350px");
+            var recipeImage = $("<img>");
             recipeImage.attr("src", recipePic);
             recipeImage.attr("data-id", recipeId);
             recipeImage.addClass("card-img-top");
-            recipeImage.css("max-width", "400px");
+            recipeImage.addClass("mx-auto");
+            recipeImage.css("max-width", "300px");
+            var p = $("<p>").text(response[i].title);
             p.addClass("card-text");
-            recipeDiv.append(p);
-            recipeDiv.append(recipeImage);
-            recipeDiv.addClass("card recipe-card");
-            $("#recipe-here").prepend(recipeDiv);
+            p.addClass("mx-auto");
+            recipeDiv.append(recipeImage, p);
+            $("#recipe-here").append(recipeDiv);
         }
         });
     });
@@ -58,6 +61,20 @@ $(document).on("click", ".card-img-top", function(event){
         }) .then(function(response){
             console.log(response);
         });
-
 });
 
+$("#find-nutrition").on("click", function (event) {
+    event.preventDefault();
+    var findIngredient = $(".find").attr("data-ingreditien");
+    var findAmount = $(".find").attr("data-amount");
+    var findNutrition = findIngredient + findAmount;
+    var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response)
+        console.log(response.calories);
+    });
+}); 
