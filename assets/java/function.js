@@ -24,7 +24,25 @@ $("#add-ingreditien").on("click", function(event){
             url: queryURL,
             method: "GET"
         }) .then(function(response){
-            console.log(response)
+            console.log(response);
+            var results = response.length;
+            console.log(results);
+        for (var i = 0; i < results; i++) {
+            var recipeDiv = $("<div>");
+            var p = $("<p>").text(response[i].title);
+            var recipeImage = $("<img>");
+            var recipePic = response[i].image;
+            var recipeId = response[i].id;
+            recipeImage.attr("src", recipePic);
+            recipeImage.attr("data-id", recipeId);
+            recipeImage.addClass("card-img-top")
+            recipeImage.css("style", "max-width: 400px")
+            p.addClass("card-text")
+            recipeDiv.append(p);
+            recipeDiv.append(recipeImage);
+            recipeDiv.addClass("card recipe-card");
+            $("#recipe-here").prepend(recipeDiv);
+        }
         });
     });
 
