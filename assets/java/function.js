@@ -22,7 +22,7 @@ $("#add-ingreditien").on("click", function(event){
         // Tiur's API Key
         // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ findIngredients + "&number=10"
         // Cera's API Key
-        var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ findIngredients + "&number=10"
+        var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ findIngredients + "&number=12"
 
         $.ajax({
             url: queryURL,
@@ -36,7 +36,7 @@ $("#add-ingreditien").on("click", function(event){
             var recipeId = response[i].id;
             var recipeDiv = $("<div>");
             recipeDiv.addClass("card recipe-card");
-            recipeDiv.addClass("my-3");
+            recipeDiv.addClass("col-lg-3");
             recipeDiv.css("max-width", "350px");
             var recipeImage = $("<img>");
             recipeImage.attr("src", recipePic);
@@ -46,10 +46,10 @@ $("#add-ingreditien").on("click", function(event){
             recipeImage.css("max-width", "300px");
             var p = $("<p>").text(response[i].title);
             p.addClass("card-text");
-            p.addClass("mx-auto");
+            p.addClass("text-center");
             recipeDiv.append(recipeImage, p);
             $("#recipe-here").append(recipeDiv);
-        }
+            }
         });
     });
 
@@ -69,8 +69,14 @@ $(document).on("click", ".card-img-top", function(event){
             method: "GET"
         }) .then(function(response){
             console.log(response);
+            console.log(response.analyzedInstructions[0].steps[0].step);
+            console.log(response.analyzedInstructions[0].steps[0].equipment[0].name);
+            console.log(response.analyzedInstructions[0].steps[0].ingredients[0].name);
         });
 });
+
+
+
 
 // get the value's nutrion
 $("#find-nutrition").on("click", function (event) {
