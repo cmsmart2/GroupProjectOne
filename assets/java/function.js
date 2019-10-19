@@ -1,8 +1,9 @@
 var arrayIng = [];
+$.getScript("./assets/java/taggle.js", function() {
+    var taggle = new Taggle('ingreditients-here');
+taggle.add(arrayIng)
 
-
-
-
+});
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function(event){
     event.preventDefault();
@@ -18,7 +19,6 @@ $("#add-ingredient").on("click", function(event){
     $("#ingredient").val(" ");
     $("#amount").val(" ");
 });
-
 // Take the ingredients to find some recipes
 $("#find-recipe").on("click", function(event){
     event.preventDefault();
@@ -58,7 +58,6 @@ $("#find-recipe").on("click", function(event){
     });
     $("#recipe-here").empty();
 });
-
 // get the recipe based on which recipe we choose
 $(document).on("click", ".card-img-top", function(event){
     event.preventDefault();
