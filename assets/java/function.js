@@ -59,7 +59,7 @@ $("#find-recipe").on("click", function(event){
     $("#recipe-here").empty();
 });
 // get the recipe based on which recipe we choose
-$(document).on("click", ".card-img-top", function(event){
+$(document).on("click", ".card-img-top", function (event) {
     event.preventDefault();
         var recipeIdNum = $(this).attr("data-id");
         console.log(recipeIdNum);
@@ -92,20 +92,30 @@ $(document).on("click", ".card-img-top", function(event){
             // }
         });
 });
-
 // get the value's nutrion
 $("#find-nutrition").on("click", function (event) {
     event.preventDefault();
     var findIngredient = $(".find").attr("data-ingredient");
     var findAmount = $(".find").attr("data-amount");
-    var findNutrition = findIngredient + findAmount;
+    var findNutrition = "%20" + findIngredient + "%20" + findAmount;
     var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
+    console.log(queryURL);
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
         console.log(response)
-        console.log(response.calories);
+        // console.log(response.calories);
+        var nutrition = response;
+        var calories = nutrition.calories;
+        var calcium = nutrition.totalDaily.CA
+        $('p').text(calories).appendTo("#ingreditients-here");
+
+        // for (var n = 0; n < nutrition; n++) {
+        // calories = response[n].calories;
+
+        // }
+        console.log(calories, calcium);
     });
 }); 
