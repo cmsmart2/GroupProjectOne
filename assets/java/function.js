@@ -29,12 +29,12 @@ $("#find-recipe").on("click", function(event){
     var findIngredients = $(".find").attr("data-ingredient");
     console.log(findIngredients);
     // Tiur's API Key
-    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ findIngredients + "&number=10"
+    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ arrayIng + "&number=10"
     // Cera's API Key
     // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ arrayIng + "&number=10"
 
      // Zach's API Key
-     var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=10"
+    //  var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=10"
     console.log(queryURL);
     $.ajax({
         url: queryURL,
@@ -131,11 +131,11 @@ $(document).on("click", ".d-block", function (event) {
         var recipeIdNum = $(this).attr("data-id");
         console.log(recipeIdNum);
         // Tiur's API Key
-        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
+        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
         // Cera's API Key
         // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
         // Zach's API Key
-        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6"
+        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6"
         $.ajax({
             url: queryURL,
             method: "GET"
@@ -145,59 +145,103 @@ $(document).on("click", ".d-block", function (event) {
             var recipeHere = $("<div>");
             recipeHere.addClass("container detail py-2 rounded");
             recipeHere.css("background", "#fffffff0");
+            recipeHere.css("border", "1px solid grey");
             $(".recipe-show").append(recipeHere);
             // title
             var title = response.title; 
             var p1 = $("<p>");
-            p1.addClass("py-2");
+            p1.addClass("py-2 lead");
             p1.css("line-height", "150%");
             p1.addClass("text-center")
             p1.text(title);
-            // loop through equipment array
-            var equipmentLength = response.analyzedInstructions[0].steps[0].equipment.length; 
-            for(var e = 0; e < equipmentLength; e++){
-                allEquipment.push(response.analyzedInstructions[0].steps[0].equipment[e].name);
-            }
-            var p2 = $("<p>");
-            p2.css("line-height", "150%");
-            p2.text("Equipment: " + allEquipment);
+            recipeHere.append(p1);
             // loop through ingredients array
-            var ingredientsLength = response.analyzedInstructions[0].steps[0].ingredients.length;
-            for(var g = 0; g <ingredientsLength; g++){
-                allIngredient.push(response.analyzedInstructions[0].steps[0].ingredients[g].name);
-            }
-            var p3 = $("<p>");
-            p3.css("line-height", "150%");
-            p3.text("Ingredients: " + allIngredient);
-            // loop through extended ingredients
+            var ifElse = response.analyzedInstructions.length;
             var extendedLength = response.extendedIngredients.length;
             for(var t = 0; t < extendedLength; t++){
                 extendedIng.push(response.extendedIngredients[t].name)
             }
-            var p4 = $("<p>");
-            p4.css("line-height", "150%");
-            p4.text("More Ingredients: " + extendedIng);
-            console.log(response.extendedIngredients[0].name);
-            // console.log(response.extendedIngredients[0].amount + response.extendedIngredients[0].unit)
+            if (ifElse === 0) {
+                var p3 = $("<p>");
+                p3.css("line-height", "150%");
+                p3.addClass("pt-2");
+                p3.text("Ingredients: " + extendedIng);
+                recipeHere.append(p3);
+            } else {
+                // loop through equipment array
+                var equipmentLength = response.analyzedInstructions[0].steps[0].equipment.length; 
+                var ingredientsLength = response.analyzedInstructions[0].steps[0].ingredients.length;
+                for(var g = 0; g <ingredientsLength; g++){
+                    allIngredient.push(response.analyzedInstructions[0].steps[0].ingredients[g].name);
+                }
+                for(var e = 0; e < equipmentLength; e++){
+                    allEquipment.push(response.analyzedInstructions[0].steps[0].equipment[e].name);
+                }
+                if (equipmentLength === 0){
+                    var p2 = $("<p>");
+                    p2.addClass("pt-2");
+                    p2.css("line-height", "150%");
+                    p2.text("Ingredients: " + allIngredient + extendedIng);
+                    recipeHere.append(p2);
+                } else {
+                    var p2 = $("<p>");
+                    p2.addClass("py-2");
+                    p2.css("line-height", "150%");
+                    p2.text("Equipment: " + allEquipment);
+                    var p3 = $("<p>");
+                    p3.css("line-height", "150%");
+                    p3.text("Ingredients: " + allIngredient + extendedIng);
+                    recipeHere.append(p2, p3);
+                }
+            }
             // cook's instructions 
             var instructions = response.instructions; 
-            var p5 = $("<p>");
-            p5.addClass("py-2");
-            p5.css("line-height", "150%");
-            p5.text("instructions: " + instructions); 
-            // url
             var url = response.sourceUrl;
-            var p6 = $("<p>");
-            p6.addClass("pb-2");
-            p6.css("line-height", "150%");
-            p6.text("More Information: ");
-            var a = $("<a>");
-            a.attr("href", url);
-            a.text(title);
-            p6.append(a); 
-            recipeHere.append(p1, p2, p3, p4, p5, p6);
+            if(instructions === null) {
+                var p4 = $("<p>");
+                p4.addClass("py-2");
+                p4.css("line-height", "150%");
+                p4.text("Instructions: ");
+                var a = $("<a>");
+                a.attr("href", url);
+                a.text(title);
+                p4.append(a); 
+                recipeHere.append(p4);
+            } else {
+                var p4 = $("<p>");
+                p4.addClass("py-2");
+                p4.css("line-height", "150%");
+                p4.text("Instructions: " + instructions); 
+                // url
+                var p5 = $("<p>");
+                p5.addClass("pb-2");
+                p5.css("line-height", "150%");
+                p5.text("More Information: ");
+                var a = $("<a>");
+                a.attr("href", url);
+                a.text(title);
+                p5.append(a); 
+                recipeHere.append(p4, p5);
+            }
+            var buttonDiv = $("<div>");
+            recipeHere.append(buttonDiv);
+            var newButton = $("<button>");
+            newButton.addClass("reset my-3 mx-auto rounded border-secondary p-2");
+            newButton.attr("type", "submit");
+            newButton.text("Have Different Ingredients?");
+            buttonDiv.append(newButton);
         });
+        $(".detail").empty();
 });
+
+$(document).on("click", ".reset", function (event) {
+    event.preventDefault();
+    $(".move").empty();
+    $(".recipe-show").empty();
+    $("#ingredients-here").empty();
+    $("#nutrition-here").empty();
+})
+
 // get the value's nutrion
 $("#find-nutrition").on("click", function (event) {
     event.preventDefault();
