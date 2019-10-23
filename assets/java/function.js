@@ -1,33 +1,43 @@
 var arrayIng = [];
-$.getScript("./assets/java/taggle.js", function() {
-    var taggle = new Taggle('ingreditients-here');
-taggle.add(arrayIng)
+var arrayTag = [];
 
-});
+function createTaggle() {
+    $("#ingredients-here").empty();
+    new Taggle('ingredients-here', {
+        tags: arrayTag
+    });
+}
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function(event){
     event.preventDefault();
     var ingredient = $("#ingredient").val().trim();
     arrayIng.push("+" + ingredient);
     var amount = $("#amount").val();
-    var list = $("<li>");
-    list.addClass("find");
-    list.attr("data-ingredient", ingredient);
-    list.attr("data-amount", amount);
-    list.text(ingredient+" "+amount);
-    $("#ingredients-here").append(list);
+    // var list = $("<div>");
+    // list.addClass("find");
+    // list.attr("data-ingredient", ingredient);
+    // list.attr("data-amount", amount);
+    // list.text(amount + " " + ingredient);
+    $('#find').hide();
+    // list.text(amount + " " + ingredient);
+    arrayTag.push(amount + " " + ingredient);
+    createTaggle();
+    // $("#ingredients-here").append(list);
     $("#ingredient").val(" ");
     $("#amount").val(" ");
+    console.log(list);
 });
 // Take the ingredients to find some recipes
 $("#find-recipe").on("click", function(event){
     event.preventDefault();
-    var findIngredients = $(".find").attr("data-ingredient");
-    console.log(findIngredients);
+    // var findIngredients = $(".find").attr("data-ingredient");
+    // console.log(findIngredients);
     // Tiur's API Key
-    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ findIngredients + "&number=10"
+    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ arrayIng + "&number=5"
     // Cera's API Key
-    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ arrayIng + "&number=12"
+    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ arrayIng + "&number=5"
+    // Zach's API Key
+    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=5"
     console.log(queryURL);
     $.ajax({
         url: queryURL,
@@ -66,7 +76,9 @@ $(document).on("click", ".card-img-top", function (event) {
         // Tiur's API Key
         // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
         // Cera's API Key
-        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
+        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
+        //Zach's API Key
+        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6"
         $.ajax({
             url: queryURL,
             method: "GET"
