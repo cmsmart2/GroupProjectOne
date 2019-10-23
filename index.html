@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Be+Vietnam|Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/reset.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/taggle.css">
     <style>
-        body { 
-            background: url(../assets/images/df.jpg) no-repeat center center fixed; 
+        body {
+            background: url(../assets/images/df.jpg) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -21,6 +23,7 @@
     </style>
     <title>Project 1</title>
 </head>
+
 <body>
         <div class="jumbotron mx-auto text-center bg-transparent m-0" style="max-width: 500px;">
             <div class="container">
@@ -50,13 +53,17 @@
                 <input type="submit" value="Find Recipe" id="find-recipe" class="my-3" > <br>
                 <input type="submit" value="Find Nutrition" id="find-nutrition">
         </div>
-        <div class="container">
-            <div class="row" id="recipe-here"></div>
-        </div>
-        <div id="example6"></div>
-    
-        
+        <input type="submit" value="Find Recipe" id="find-recipe" class="my-3"> <br>
+        <input type="submit" value="Find Nutrition" id="find-nutrition">
 
+
+
+
+        <div class="container border border-secondary p-3">
+            <p>Ingredient Nutrition:</p>
+            <ul id="nutrition-here">
+            </ul>
+        </div> 
 <!-- Firebase Core JavaScript Link -->
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
  <!-- Specific Firebase products we want (Database) -->
@@ -65,4 +72,5 @@
 <script type="text/javascript" src="./assets/java/function.js"></script>
 <script type="text/javascript" src="./assets/java/taggle.js"></script>
 </body>
+
 </html>
