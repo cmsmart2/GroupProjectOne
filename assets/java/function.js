@@ -1,5 +1,8 @@
 var arrayIng = [];
 var arrayTag = [];
+var allEquipment = [];
+var extendedIng = [];
+var allIngredient = [];
 var ingredientNames = [];
 var ingredientAmounts = [];
 var ingredientCalories = [];
@@ -25,7 +28,13 @@ function createTaggle() {
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function(event){
     event.preventDefault();
+    $("#my-form").addClass("was-validated");
+    if (document.getElementById('my-form').checkValidity() === false) {
+        return;
+    }
+    $("#my-form").removeClass("was-validated");
     var ingredient = $("#ingredient").val().trim();
+    
     arrayIng.push("+" + ingredient);
     var amount = $("#amount").val();
     ingredientAmounts.push(amount);
@@ -271,6 +280,7 @@ $("#find-nutrition").on("click", function (event) {
         console.log(response)
         // console.log(response.calories);
         var nutrition = response;
+        console.log(nutrition);
         $('p').text(calories).appendTo("#ingreditients-here");
         $.ajax({
             url: queryURL,
