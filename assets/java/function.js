@@ -34,7 +34,7 @@ $("#add-ingredient").on("click", function(event){
     }
     $("#my-form").removeClass("was-validated");
     var ingredient = $("#ingredient").val().trim();
-    
+
     arrayIng.push("+" + ingredient);
     var amount = $("#amount").val();
     ingredientAmounts.push(amount);
