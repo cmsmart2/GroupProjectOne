@@ -1,23 +1,23 @@
 var arrayIng = [];
-var allEquipment = [];
-var allIngredient = [];
-var extendedIng = [];
-// $.getScript("./assets/java/taggle.js", function() {
-//     var taggle = new Taggle('ingreditients-here');
-// taggle.add(arrayIng)
-// });
-
+var ingredientNames = [];
+var ingredientAmounts = [];
+var ingredientCalories = [];
+$.getScript("./assets/java/taggle.js", function() {
+    var taggle = new Taggle('ingreditients-here');
+taggle.add(arrayIng)
+});
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function(event){
     event.preventDefault();
     var ingredient = $("#ingredient").val().trim();
     arrayIng.push("+" + ingredient);
     var amount = $("#amount").val();
+    ingredientAmounts.push(amount);
     var list = $("<li>");
     list.addClass("find");
     list.attr("data-ingredient", ingredient);
     list.attr("data-amount", amount);
-    list.text(ingredient+" "+amount);
+    list.text(ingredient + " " + amount);
     $("#ingredients-here").append(list);
     $("#ingredient").val(" ");
     $("#amount").val(" ");
@@ -233,7 +233,6 @@ $(document).on("click", ".d-block", function (event) {
         });
         $(".detail").empty();
 });
-
 $(document).on("click", ".reset", function (event) {
     event.preventDefault();
     $(".move").empty();
@@ -241,15 +240,12 @@ $(document).on("click", ".reset", function (event) {
     $("#ingredients-here").empty();
     $("#nutrition-here").empty();
 })
-
 // get the value's nutrion
 $("#find-nutrition").on("click", function (event) {
     event.preventDefault();
-    var findIngredient = $(".find").attr("data-ingredient");
-    var findAmount = $(".find").attr("data-amount");
-    var findNutrition = "%20" + findIngredient + "%20" + findAmount;
-    var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
-    console.log(queryURL);
+    for (let n = 0; n < arrayIng.length; n++) {
+        var findNutrition = "%20" + ingredientNames[n] + "%20" + ingredientAmounts[n];
+        var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -257,15 +253,28 @@ $("#find-nutrition").on("click", function (event) {
         console.log(response)
         // console.log(response.calories);
         var nutrition = response;
-        var calories = nutrition.calories;
-        var calcium = nutrition.totalDaily.CA
         $('p').text(calories).appendTo("#ingreditients-here");
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            ingredientCalories.push(response);
+            console.log(response)
+            // console.log(response.calories);
+            var nutrition = response;
+            var calories = nutrition.calories;
+            var protein = nutrition.totalNutrients.PROCNT.quantity;
+            var calcium = nutrition.totalDaily.CA;
+            var carbohydrate = nutrition.totalNutrientsKCal.CHOCDF_KCAL.quantity;
+            var fat = nutrition.totalNutrientsKCal.FAT_KCAL.quantity;
+            var cholesterol = nutrition.totalNutrients.CHOLE.quantity;
+            var satFat = nutrition.totalNutrients.FASAT.quantity;
 
-        // for (var n = 0; n < nutrition; n++) {
-        // calories = response[n].calories;
-
-        // }
-        console.log(calories, calcium);
+            $('#nutrition-here').append(`<p>${ingredientNames[n]} Total Cal Amount: ${calories}</p>`);
+            $('#nutrition-here').append(`<p>${ingredientNames[n]} Cal from Carbs: ${carbohydrate}</p>`);
+            $('#nutrition-here').append(`<p>${ingredientNames[n]} Cal from Fat: ${fat}</p>`);
+            $('#nutrition-here').append(`<p>${ingredientNames[n]} Cal from Saturated Fat: ${satFat}</p>`);
+           $('#nutrition-here').append(`<p>${ingredientNames[n]} Total Cholesterol: ${cholesterol}</p>`);
     });
 }); 
 
