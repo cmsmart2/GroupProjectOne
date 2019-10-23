@@ -18,57 +18,74 @@
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
-            font-family: 'Be Vietnam', sans-serif;
         }
     </style>
     <title>Project 1</title>
 </head>
 
 <body>
-        <div class="jumbotron mx-auto text-center bg-transparent m-0" style="max-width: 500px;">
-            <div class="container">
-                <h1 class="display-4" style="font-family: 'Fredoka One', cursive;">Kitchen Sink</h1>
-                <p class="lead">Find Recipe by Ingredients in Your Kitchen</p>
+    <div class="jumbotron mx-auto text-center bg-transparent m-0" style="max-width: 500px;">
+        <div class="container">
+            <h1 class="display-4" style="font-family: 'Fredoka One', cursive;">Kitchen Sink</h1>
+            <p class="lead">Find Recipe by Ingredients in Your Kitchen</p>
+        </div>
+    </div>
+    <!-- find recipe -->
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col-md-6 my-sm-5 my-md-0">
+                <div class="container mx-auto p-4 rounded-sm " style="background: #fffffff0; max-width: 500px; width: 100%;">
+                    <form id="my-form">
+                        <div class="form-group">
+                            <label class="form-control-label" for="ingredient">Ingredients</label>
+                            <input name="ingredient" type="text" class="form-control" id="ingredient" placeholder="ingredients" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="amount">Amount</label>
+                            <input name="amount" type="text" class="form-control" id="amount" placeholder="amount" required>
+                        </div>
+                        <button type="submit" id="add-ingredient" class="mb-3 rounded border-secondary p-2">Add</button>
+                    </form>
+                    <div class="container border border-secondary p-3">
+                        <p>Your Ingredients:</p>
+                        <ul id="ingredients-here">
+                        </ul>
+                    </div>
+                    <button type="submit" id="find-recipe" class="my-3 rounded border-secondary p-2">Find Recipe</button>
+                </div>
+            </div>
+            <div class="col-md-6 my-sm-5 my-md-0">
+                <div class="container mx-auto p-4 rounded-sm " style="background: #fffffff0; max-width: 500px; width: 100%;">
+                    <div class="container border border-secondary p-3">
+                        <p>The Nutrition:</p>
+                        <ul id="nutrition-here">
+                        </ul>
+                    </div>
+                    <button type="submit" id="find-nutrition" class="my-3 rounded border-secondary p-2">Find Nutrition</button>
+                </div>
             </div>
         </div>
-        <!-- find recipe -->
-        <div class="container mx-auto p-4 rounded-sm " style="background: #fffffff0; max-width: 500px;">
-                <form>
-                    <div class="form-group">
-                        <label for="ingredient">Ingredients</label>
-                        <input type="text" class="form-control" id="ingredient" placeholder="ingredients">
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input type="text" class="form-control" id="amount" placeholder="amount">
-                    </div>
-                    
-                    <input type="submit" value="Add" id="add-ingredient" class="mb-3">
-                </form>
-                <div class="container border border-secondary p-3">
-                    <p>Your Ingredients:</p>
-                    <ul id="ingredients-here">
-                    </ul>
+    </div>
+    <!-- recipe -->
+    <div class="container-fluid my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="move mx-auto">
                 </div>
-                <input type="submit" value="Find Recipe" id="find-recipe" class="my-3" > <br>
-                <input type="submit" value="Find Nutrition" id="find-nutrition">
+            </div>
+            <div class="col-md-6 recipe-show">
+            </div>
         </div>
-        <input type="submit" value="Find Recipe" id="find-recipe" class="my-3"> <br>
-        <input type="submit" value="Find Nutrition" id="find-nutrition">
+    </div>
+    <div id="example6"></div>
 
-
-
-
-        <div class="container border border-secondary p-3">
-            <p>Ingredient Nutrition:</p>
-            <ul id="nutrition-here">
-            </ul>
-        </div> 
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <!-- Firebase Core JavaScript Link -->
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
  <!-- Specific Firebase products we want (Database) -->
  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="./assets/java/function.js"></script>
 <script type="text/javascript" src="./assets/java/taggle.js"></script>
 </body>
