@@ -29,12 +29,12 @@ $("#find-recipe").on("click", function(event){
     var findIngredients = $(".find").attr("data-ingredient");
     console.log(findIngredients);
     // Tiur's API Key
-    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ arrayIng + "&number=10"
+    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ arrayIng + "&number=3"
     // Cera's API Key
-    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ arrayIng + "&number=10"
+    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ arrayIng + "&number=3"
 
      // Zach's API Key
-    //  var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=10"
+    //  var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=3"
     console.log(queryURL);
     $.ajax({
         url: queryURL,
@@ -131,9 +131,9 @@ $(document).on("click", ".d-block", function (event) {
         var recipeIdNum = $(this).attr("data-id");
         console.log(recipeIdNum);
         // Tiur's API Key
-        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
+        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
         // Cera's API Key
-        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
+        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
         // Zach's API Key
         // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6"
         $.ajax({
