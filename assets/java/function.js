@@ -7,8 +7,20 @@ var ingredientCalories = [];
 function createTaggle() {
     $("#ingredients-here").empty();
     new Taggle('ingredients-here', {
-        tags: arrayTag
+        tags: arrayTag,
+        onTagRemove: function(event, tag) {
+            console.log(event, tag)
+            var ing = tag.split(' ').pop();
+            console.log(ing);
+            console.log(arrayIng);
+            var newArr = arrayIng.filter(function(el) {
+                return el !== `+${ing}`
+            })
+            arrayIng = newArr;
+            console.log(arrayIng);
+        }
     });
+    $('#ingredients-here')
 }
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function(event){
@@ -29,7 +41,6 @@ $("#add-ingredient").on("click", function(event){
     // $("#ingredients-here").append(list);
     $("#ingredient").val(" ");
     $("#amount").val(" ");
-    console.log(list);
 });
 // Take the ingredients to find some recipes
 $("#find-recipe").on("click", function(event){
