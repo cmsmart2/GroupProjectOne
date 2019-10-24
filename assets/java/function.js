@@ -19,11 +19,19 @@ function createTaggle() {
             var newArr = arrayIng.filter(function (el) {
                 return el !== `+${ing}`
             })
+            var newTag = arrayTag.filter(function (el) {
+                return el !== `${tag}`
+            })
             arrayIng = newArr;
             console.log(arrayIng);
+            arrayTag = newTag;
+            console.log(arrayTag);
+          
         }
+       
     });
-    $('#ingredients-here')
+    $('#ingredients-here');
+    console.log(arrayTag);
 }
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function (event) {
