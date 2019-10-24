@@ -1,121 +1,296 @@
 var arrayIng = [];
-$.getScript("./assets/java/taggle.js", function() {
-    var taggle = new Taggle('ingreditients-here');
-taggle.add(arrayIng)
+var arrayTag = [];
+var allEquipment = [];
+var extendedIng = [];
+var allIngredient = [];
+var ingredientNames = [];
+var ingredientAmounts = [];
+var ingredientCalories = [];
 
-});
+function createTaggle() {
+    $("#ingredients-here").empty();
+    new Taggle('ingredients-here', {
+        tags: arrayTag,
+        onTagRemove: function (event, tag) {
+            console.log(event, tag)
+            var ing = tag.split(' ').pop();
+            console.log(ing);
+            console.log(arrayIng);
+            var newArr = arrayIng.filter(function (el) {
+                return el !== `+${ing}`
+            })
+            arrayIng = newArr;
+            console.log(arrayIng);
+        }
+    });
+    $('#ingredients-here')
+}
 // Take value from inputs and look for recipe based on that value
-$("#add-ingredient").on("click", function(event){
+$("#add-ingredient").on("click", function (event) {
     event.preventDefault();
+    $("#my-form").addClass("was-validated");
+    if (document.getElementById('my-form').checkValidity() === false) {
+        return;
+    }
+    $("#my-form").removeClass("was-validated");
     var ingredient = $("#ingredient").val().trim();
     arrayIng.push("+" + ingredient);
     var amount = $("#amount").val();
-    var list = $("<li>");
-    list.addClass("find");
-    list.attr("data-ingredient", ingredient);
-    list.attr("data-amount", amount);
-    list.text(ingredient+" "+amount);
-    $("#ingredients-here").append(list);
+    ingredientAmounts.push(amount);
+    // var list = $("<div>");
+    // list.addClass("find");
+    // list.attr("data-ingredient", ingredient);
+    // list.attr("data-amount", amount);
+    // list.text(amount + " " + ingredient);
+    $('#find').hide();
+    // list.text(amount + " " + ingredient);
+    arrayTag.push(amount + " " + ingredient);
+    createTaggle();
+    // $("#ingredients-here").append(list);
     $("#ingredient").val(" ");
     $("#amount").val(" ");
 });
 // Take the ingredients to find some recipes
-$("#find-recipe").on("click", function(event){
+$("#find-recipe").on("click", function (event) {
     event.preventDefault();
-    var findIngredients = $(".find").attr("data-ingredient");
-    console.log(findIngredients);
+    // var findIngredients = $(".find").attr("data-ingredient");
+    // console.log(findIngredients);
     // Tiur's API Key
-    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ findIngredients + "&number=10"
+    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ arrayIng + "&number=5"
     // Cera's API Key
-    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients="+ arrayIng + "&number=12"
+    var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients=" + arrayIng + "&number=5"
+    // Zach's API Key
+    // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=5"
     console.log(queryURL);
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }) .then(function(response){
-        console.log(response);
-        var results = response.length;
-        console.log(results);
-    for (var i = 0; i < results; i++) {
-        var recipePic = response[i].image;
-        var recipeId = response[i].id;
-        var recipeDiv = $("<div>");
-        recipeDiv.addClass("card recipe-card");
-        recipeDiv.addClass("col-lg-3");
-        recipeDiv.css("max-width", "350px");
-        var recipeImage = $("<img>");
-        recipeImage.attr("src", recipePic);
-        recipeImage.attr("data-id", recipeId);
-        recipeImage.addClass("card-img-top");
-        recipeImage.addClass("mx-auto");
-        recipeImage.css("max-width", "300px");
-        var p = $("<p>").text(response[i].title);
-        p.addClass("card-text");
-        p.addClass("text-center");
-        recipeDiv.append(recipeImage, p);
-        $("#recipe-here").append(recipeDiv);
-        }
-    });
-    $("#recipe-here").empty();
-});
-// get the recipe based on which recipe we choose
-$(document).on("click", ".card-img-top", function (event) {
-    event.preventDefault();
-        var recipeIdNum = $(this).attr("data-id");
-        console.log(recipeIdNum);
-        // Tiur's API Key
-        // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
-        // Cera's API Key
-        var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }) .then(function(response){
-            console.log(response);
-            console.log(response.title);
-            console.log(response.instructions);
-            console.log(response.analyzedInstructions[0].steps[0].ingredients);
-            // var stepsLength = response.analyzedInstructions[0].steps;
-            // for( var j = 0; j < stepsLength; j++){
-            //     console.log(response.analyzedInstructions[0].steps[j].step);
-            // }
-        
-            // loop through equipment array
-            // var equipmentLength = [0].equipment; 
-            // for(var e = 0; e < equipmentLength; e++){
-            //     console.log(response.analyzedInstructions.steps[0].equipment[e].name);
-            // }
-            // loop through ingredients array
-            // var ingredientsLength = response.analyzedInstructions[0].steps[0].ingredients;
-            // for(var g = 0; g <ingredientsLength; g++){
-            //     console.log(response.analyzedInstructions[0].steps[0].ingredients[j].name);
-            // }
-        });
-});
-// get the value's nutrion
-$("#find-nutrition").on("click", function (event) {
-    event.preventDefault();
-    var findIngredient = $(".find").attr("data-ingredient");
-    var findAmount = $(".find").attr("data-amount");
-    var findNutrition = "%20" + findIngredient + "%20" + findAmount;
-    var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
-    console.log(queryURL);
-
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response)
-        // console.log(response.calories);
-        var nutrition = response;
-        var calories = nutrition.calories;
-        var calcium = nutrition.totalDaily.CA
-        $('p').text(calories).appendTo("#ingreditients-here");
-
-        // for (var n = 0; n < nutrition; n++) {
-        // calories = response[n].calories;
-
-        // }
-        console.log(calories, calcium);
+        console.log(response);
+        var results = response.length;
+        console.log(results);
+        //  recipe
+        var clickHere = $("<div>");
+        clickHere.addClass("detail py-2 text-center w-75 mx-auto");
+        clickHere.css("background", "#fffffff0");
+        clickHere.css("border", "1px solid grey");
+        clickHere.text("Click The Image To See The Recipe");
+        $(".recipe-show").append(clickHere);
+        //carousel 
+        var tagHere = $("<div>");
+        tagHere.addClass("carousel slide");
+        tagHere.attr("id", "together");
+        tagHere.attr("data-ride", "carousel");
+        $(".move").append(tagHere);
+        var orderList = $("<ol>");
+        orderList.addClass("carousel-indicators");
+        var caInner = $("<div>");
+        caInner.addClass("carousel-inner");
+        tagHere.append(orderList, caInner);
+        for (var j = 0; j < results; j++) {
+            var list = $("<li>");
+            list.attr("data-target", "#together");
+            list.attr("data-slide-to", [j]);
+            if (j === 0) {
+                list.addClass("active");
+            }
+            orderList.append(list);
+            // image and texts
+            var ciDiv = $("<div>");
+            ciDiv.addClass("carousel-item");
+            if (j === 0) {
+                ciDiv.addClass("active");
+            }
+            var recipePic = response[j].image;
+            var recipeId = response[j].id;
+            var recipeTitle = response[j].title
+            var recipeImage = $("<img>");
+            recipeImage.attr("src", recipePic);
+            recipeImage.attr("data-id", recipeId);
+            recipeImage.addClass("d-block w-75 mx-auto");
+            var caption = $("<div>");
+            caption.addClass("carousel-caption d-none d-md-block");
+            caption.css("background", "#fffffff0")
+            var h1 = $("<h1>");
+            h1.text(recipeTitle);
+            h1.addClass("lead");
+            h1.addClass("text-body");
+            caption.append(h1);
+            ciDiv.append(recipeImage, caption);
+            caInner.append(ciDiv);
+        }
+        // prev button
+        var prev = $("<a>");
+        prev.addClass("carousel-control-prev");
+        prev.attr("href", "#together");
+        prev.attr("role", "button");
+        prev.attr("data-slide", "prev");
+        tagHere.append(prev);
+        var span1 = $("<span>");
+        span1.addClass("carousel-control-prev-icon");
+        span1.attr("aria-hidden", "true");
+        var span2 = $("<span>");
+        span2.addClass("sr-only");
+        span2.text("Previous");
+        prev.append(span1, span2);
+        // next button
+        var next = $("<a>");
+        next.addClass("carousel-control-next");
+        next.attr("href", "#together");
+        next.attr("role", "button");
+        next.attr("data-slide", "next");
+        tagHere.append(next);
+        var span3 = $("<span>");
+        span3.addClass("carousel-control-next-icon");
+        span3.attr("aria-hidden", "true");
+        var span4 = $("<span>");
+        span4.addClass("sr-only");
+        span4.text("Next");
+        next.append(span3, span4);
     });
-}); 
+    $(".move").empty();
+    $(".recipe-show").empty();
+});
+// get the recipe based on which recipe we choose
+$(document).on("click", ".d-block", function (event) {
+    event.preventDefault();
+    var recipeIdNum = $(this).attr("data-id");
+    console.log(recipeIdNum);
+    // Tiur's API Key
+    // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
+    // Cera's API Key
+    var queryURL = "https://api.spoonacular.com/recipes/" + recipeIdNum + "/information?apiKey=bf050a8943b74210a77973e2062818b1"
+    // Zach's API Key
+    // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6"
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        $(".detail").remove();
+        var recipeHere = $("<div>");
+        recipeHere.addClass("container detail py-2 rounded");
+        recipeHere.css("background", "#fffffff0");
+        recipeHere.css("border", "1px solid grey");
+        $(".recipe-show").append(recipeHere);
+        // title
+        var title = response.title;
+        var p1 = $("<p>");
+        p1.addClass("py-2 lead");
+        p1.css("line-height", "150%");
+        p1.addClass("text-center")
+        p1.text(title);
+        recipeHere.append(p1);
+        // loop through ingredients array
+        var ifElse = response.analyzedInstructions.length;
+        var extendedLength = response.extendedIngredients.length;
+        for (var t = 0; t < extendedLength; t++) {
+            extendedIng.push(response.extendedIngredients[t].name)
+        }
+        if (ifElse === 0) {
+            var p3 = $("<p>");
+            p3.css("line-height", "150%");
+            p3.addClass("pt-2");
+            p3.text("Ingredients: " + extendedIng);
+            recipeHere.append(p3);
+        } else {
+            // loop through equipment array
+            var equipmentLength = response.analyzedInstructions[0].steps[0].equipment.length;
+            var ingredientsLength = response.analyzedInstructions[0].steps[0].ingredients.length;
+            for (var g = 0; g < ingredientsLength; g++) {
+                allIngredient.push(response.analyzedInstructions[0].steps[0].ingredients[g].name);
+            }
+            for (var e = 0; e < equipmentLength; e++) {
+                allEquipment.push(response.analyzedInstructions[0].steps[0].equipment[e].name);
+            }
+            if (equipmentLength === 0) {
+                var p2 = $("<p>");
+                p2.addClass("pt-2");
+                p2.css("line-height", "150%");
+                p2.text("Ingredients: " + allIngredient + extendedIng);
+                recipeHere.append(p2);
+            } else {
+                var p2 = $("<p>");
+                p2.addClass("py-2");
+                p2.css("line-height", "150%");
+                p2.text("Equipment: " + allEquipment);
+                var p3 = $("<p>");
+                p3.css("line-height", "150%");
+                p3.text("Ingredients: " + allIngredient + extendedIng);
+                recipeHere.append(p2, p3);
+            }
+        }
+        // cook's instructions 
+        var instructions = response.instructions;
+        var url = response.sourceUrl;
+        if (instructions === null) {
+            var p4 = $("<p>");
+            p4.addClass("py-2");
+            p4.css("line-height", "150%");
+            p4.text("Instructions: ");
+            var a = $("<a>");
+            a.attr("href", url);
+            a.text(title);
+            p4.append(a);
+            recipeHere.append(p4);
+        } else {
+            var p4 = $("<p>");
+            p4.addClass("py-2");
+            p4.css("line-height", "150%");
+            p4.text("Instructions: " + instructions);
+            // url
+            var p5 = $("<p>");
+            p5.addClass("pb-2");
+            p5.css("line-height", "150%");
+            p5.text("More Information: ");
+            var a = $("<a>");
+            a.attr("href", url);
+            a.text(title);
+            p5.append(a);
+            recipeHere.append(p4, p5);
+        }
+        var buttonDiv = $("<div>");
+        recipeHere.append(buttonDiv);
+        var newButton = $("<button>");
+        newButton.addClass("reset my-3 mx-auto rounded border-secondary p-2");
+        newButton.attr("type", "submit");
+        newButton.text("Have Different Ingredients?");
+        buttonDiv.append(newButton);
+    });
+    $(".detail").empty();
+});
+$(document).on("click", ".reset", function (event) {
+    event.preventDefault();
+    $(".move").empty();
+    $(".recipe-show").empty();
+    $("#ingredients-here").empty();
+    $("#nutrition-here").empty();
+})
+// get the value's nutrion
+$("#find-nutrition").on("click", function (event) {
+    event.preventDefault();
+    for (let n = 0; n < arrayIng.length; n++) {
+        var findNutrition = "%20" + arrayIng[n] + "%20" + ingredientAmounts[n];
+        console.log(findNutrition);
+        var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            ingredientCalories.push(response);
+            console.log(response)
+            console.log(response.calories);
+            var nutrition = response;
+            var calories = nutrition.totalNutrientsKCal.ENERC_KCAL.quantity;
+            var protein = nutrition.totalNutrientsKCal.PROCNT_KCAL.quantity;
+            var carbohydrate = nutrition.totalNutrientsKCal.CHOCDF_KCAL.quantity;
+            var fat = nutrition.totalNutrientsKCal.FAT_KCAL.quantity;
+            $('#nutrition-here').append(`<h5>${ingredientNames[n] + " " + ingredientAmounts[n]} </h5>`);
+            $('#nutrition-here').append(`<p>Total Cal Amount: ${calories}</p>`);
+            $('#nutrition-here').append(`<p>Cal from Carbs: ${carbohydrate}</p>`);
+            $('#nutrition-here').append(`<p>Cal from Protein: ${protein}</p>`);
+            $('#nutrition-here').append(`<p>Cal from Fat: ${fat}</p>`);
+        });
+    };
+}
+);
