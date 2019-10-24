@@ -1,3 +1,4 @@
+//global Varibles
 var arrayIng = [];
 var arrayTag = [];
 var allEquipment = [];
@@ -6,21 +7,17 @@ var allIngredient = [];
 var ingredientNames = [];
 var ingredientAmounts = [];
 var ingredientCalories = [];
-
+//function that creates tags
 function createTaggle() {
     $("#ingredients-here").empty();
     new Taggle('ingredients-here', {
         tags: arrayTag,
         onTagRemove: function (event, tag) {
-            console.log(event, tag)
             var ing = tag.split(' ').pop();
-            console.log(ing);
-            console.log(arrayIng);
             var newArr = arrayIng.filter(function (el) {
                 return el !== `+${ing}`
             })
             arrayIng = newArr;
-            console.log(arrayIng);
         }
     });
     $('#ingredients-here')
@@ -37,38 +34,25 @@ $("#add-ingredient").on("click", function (event) {
     arrayIng.push("+" + ingredient);
     var amount = $("#amount").val();
     ingredientAmounts.push(amount);
-    // var list = $("<div>");
-    // list.addClass("find");
-    // list.attr("data-ingredient", ingredient);
-    // list.attr("data-amount", amount);
-    // list.text(amount + " " + ingredient);
-    $('#find').hide();
-    // list.text(amount + " " + ingredient);
     arrayTag.push(amount + " " + ingredient);
     createTaggle();
-    // $("#ingredients-here").append(list);
     $("#ingredient").val(" ");
     $("#amount").val(" ");
 });
 // Take the ingredients to find some recipes
 $("#find-recipe").on("click", function (event) {
     event.preventDefault();
-    // var findIngredients = $(".find").attr("data-ingredient");
-    // console.log(findIngredients);
     // Tiur's API Key
     // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce&ingredients="+ arrayIng + "&number=5"
     // Cera's API Key
     var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=bf050a8943b74210a77973e2062818b1&ingredients=" + arrayIng + "&number=5"
     // Zach's API Key
     // var queryURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=75d00f17ac79400eaeb4e9097fdcbdc6&ingredients="+ arrayIng + "&number=5"
-    console.log(queryURL);
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
         var results = response.length;
-        console.log(results);
         //  recipe
         var clickHere = $("<div>");
         clickHere.addClass("detail py-2 text-center w-75 mx-auto");
@@ -155,7 +139,6 @@ $("#find-recipe").on("click", function (event) {
 $(document).on("click", ".d-block", function (event) {
     event.preventDefault();
     var recipeIdNum = $(this).attr("data-id");
-    console.log(recipeIdNum);
     // Tiur's API Key
     // var queryURL = "https://api.spoonacular.com/recipes/" +recipeIdNum + "/information?apiKey=e53c0977ab3a4a5b8872e1c7efb889ce"
     // Cera's API Key
@@ -166,7 +149,6 @@ $(document).on("click", ".d-block", function (event) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
         $(".detail").remove();
         var recipeHere = $("<div>");
         recipeHere.addClass("container detail py-2 rounded");
@@ -271,21 +253,18 @@ $("#find-nutrition").on("click", function (event) {
     event.preventDefault();
     for (let n = 0; n < arrayIng.length; n++) {
         var findNutrition = "%20" + arrayIng[n] + "%20" + ingredientAmounts[n];
-        console.log(findNutrition);
         var queryURL = "https://api.edamam.com/api/nutrition-data?app_id=303b58c4&app_key=ef9d7b4d891b056959de013622064837&ingr=" + findNutrition;
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function (response) {
             ingredientCalories.push(response);
-            console.log(response)
-            console.log(response.calories);
             var nutrition = response;
             var calories = nutrition.totalNutrientsKCal.ENERC_KCAL.quantity;
             var protein = nutrition.totalNutrientsKCal.PROCNT_KCAL.quantity;
             var carbohydrate = nutrition.totalNutrientsKCal.CHOCDF_KCAL.quantity;
             var fat = nutrition.totalNutrientsKCal.FAT_KCAL.quantity;
-            $('#nutrition-here').append(`<h5>${ingredientNames[n] + " " + ingredientAmounts[n]} </h5>`);
+            $('#nutrition-here').append(`<h5>${arrayTag[n]} </h5>`);
             $('#nutrition-here').append(`<p>Total Cal Amount: ${calories}</p>`);
             $('#nutrition-here').append(`<p>Cal from Carbs: ${carbohydrate}</p>`);
             $('#nutrition-here').append(`<p>Cal from Protein: ${protein}</p>`);
