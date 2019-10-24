@@ -1,5 +1,13 @@
 body{
+    background: url(../images/background.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     font-family: 'Be Vietnam', sans-serif;
+}
+p {
+  line-height: 150%;
 }
 .carousel-control-prev-icon{
     background-image: url('https://apufpel.com.br/assets/img/seta_prim.png')
