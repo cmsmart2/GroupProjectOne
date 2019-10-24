@@ -4,9 +4,8 @@ var arrayTag = [];
 var allEquipment = [];
 var extendedIng = [];
 var allIngredient = [];
-var ingredientNames = [];
 var ingredientAmounts = [];
-var ingredientCalories = [];
+
 //function that creates tags
 function createTaggle() {
     $("#ingredients-here").empty();
@@ -17,10 +16,17 @@ function createTaggle() {
             var newArr = arrayIng.filter(function (el) {
                 return el !== `+${ing}`
             })
+            var newTag = arrayTag.filter(function (el) {
+                return el !== `${tag}`
+            })
             arrayIng = newArr;
+            console.log(arrayIng);
+            arrayTag = newTag;
+            console.log(arrayTag);
         }
     });
     $('#ingredients-here')
+    $(".taggle_placeholder").empty();
 }
 // Take value from inputs and look for recipe based on that value
 $("#add-ingredient").on("click", function (event) {
@@ -159,7 +165,6 @@ $(document).on("click", ".d-block", function (event) {
         var title = response.title;
         var p1 = $("<p>");
         p1.addClass("py-2 lead");
-        p1.css("line-height", "150%");
         p1.addClass("text-center")
         p1.text(title);
         recipeHere.append(p1);
@@ -171,7 +176,6 @@ $(document).on("click", ".d-block", function (event) {
         }
         if (ifElse === 0) {
             var p3 = $("<p>");
-            p3.css("line-height", "150%");
             p3.addClass("pt-2");
             p3.text("Ingredients: " + extendedIng);
             recipeHere.append(p3);
@@ -188,16 +192,13 @@ $(document).on("click", ".d-block", function (event) {
             if (equipmentLength === 0) {
                 var p2 = $("<p>");
                 p2.addClass("pt-2");
-                p2.css("line-height", "150%");
                 p2.text("Ingredients: " + allIngredient + extendedIng);
                 recipeHere.append(p2);
             } else {
                 var p2 = $("<p>");
                 p2.addClass("py-2");
-                p2.css("line-height", "150%");
                 p2.text("Equipment: " + allEquipment);
                 var p3 = $("<p>");
-                p3.css("line-height", "150%");
                 p3.text("Ingredients: " + allIngredient + extendedIng);
                 recipeHere.append(p2, p3);
             }
@@ -208,7 +209,6 @@ $(document).on("click", ".d-block", function (event) {
         if (instructions === null) {
             var p4 = $("<p>");
             p4.addClass("py-2");
-            p4.css("line-height", "150%");
             p4.text("Instructions: ");
             var a = $("<a>");
             a.attr("href", url);
@@ -218,12 +218,10 @@ $(document).on("click", ".d-block", function (event) {
         } else {
             var p4 = $("<p>");
             p4.addClass("py-2");
-            p4.css("line-height", "150%");
             p4.text("Instructions: " + instructions);
             // url
             var p5 = $("<p>");
             p5.addClass("pb-2");
-            p5.css("line-height", "150%");
             p5.text("More Information: ");
             var a = $("<a>");
             a.attr("href", url);
@@ -247,9 +245,13 @@ $(document).on("click", ".reset", function (event) {
     $(".recipe-show").empty();
     $("#ingredients-here").empty();
     $("#nutrition-here").empty();
+    arrayIng = [];
+    arrayTag = [];
+    ingredientAmounts = [];
 })
 // get the value's nutrion
 $("#find-nutrition").on("click", function (event) {
+    $("#nutrition-here").empty();
     event.preventDefault();
     for (let n = 0; n < arrayIng.length; n++) {
         var findNutrition = "%20" + arrayIng[n] + "%20" + ingredientAmounts[n];
@@ -258,13 +260,12 @@ $("#find-nutrition").on("click", function (event) {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            ingredientCalories.push(response);
             var nutrition = response;
             var calories = nutrition.totalNutrientsKCal.ENERC_KCAL.quantity;
             var protein = nutrition.totalNutrientsKCal.PROCNT_KCAL.quantity;
             var carbohydrate = nutrition.totalNutrientsKCal.CHOCDF_KCAL.quantity;
             var fat = nutrition.totalNutrientsKCal.FAT_KCAL.quantity;
-            $('#nutrition-here').append(`<h5>${arrayTag[n]} </h5>`);
+            $('#nutrition-here').append(`<p>${arrayTag[n]} </p>`);
             $('#nutrition-here').append(`<p>Total Cal Amount: ${calories}</p>`);
             $('#nutrition-here').append(`<p>Cal from Carbs: ${carbohydrate}</p>`);
             $('#nutrition-here').append(`<p>Cal from Protein: ${protein}</p>`);
