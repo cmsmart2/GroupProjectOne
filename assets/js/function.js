@@ -24,6 +24,7 @@ function createTaggle() {
             arrayTag = newTag;
             console.log(arrayTag);
         }
+       
     });
     $('#ingredients-here')
     $(".taggle_placeholder").empty();
